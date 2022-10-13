@@ -1,5 +1,6 @@
 import * as express from 'express';
 import router from './Controller/Routes';
+import ErroHandler from './helpers/ErroHandler';
 
 class App {
   public app: express.Express;
@@ -11,6 +12,7 @@ class App {
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
     this.app.use(router);
+    this.app.use(ErroHandler);
   }
 
   private config():void {

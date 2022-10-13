@@ -1,6 +1,7 @@
 import Encrypt from '../helpers/Encrypt';
 import Token from '../helpers/Token';
 import User from '../database/models/User';
+import CustomError from '../helpers/CustomError';
 
 interface user {
   email: string;
@@ -20,7 +21,7 @@ class ServiceUser {
     const dbUser: any = await User.findOne({ where: { email }});
     const verifyPassword = Encrypt.Compare(password, dbUser.password);
     if(!dbUser || !verifyPassword) {
-      return 'Incorrect email or password';
+      throw new CustomError(401, 'Incorrect email or password');
     } else {
       const payload = {
         id: dbUser.id,
