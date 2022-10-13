@@ -13,13 +13,7 @@ class ServiceScore {
   };
 
   private _orderScore = (teams: IScore[]) => (
-    teams.sort((a, b) => {
-      if (b.totalPoints - a.totalPoints !== 0) return b.totalPoints - a.totalPoints;
-      if (b.totalVictories - a.totalVictories !== 0) return b.totalVictories - a.totalVictories;
-      if (b.goalsBalance - a.goalsBalance !== 0) return b.goalsBalance - a.goalsBalance;
-      if (b.goalsFavor - a.goalsFavor !== 0) return b.goalsFavor - a.goalsFavor;
-      return a.goalsOwn - b.goalsOwn;
-    })
+      teams.sort((a, b) => (b.totalPoints - a.totalPoints || b.totalVictories - a.totalVictories || b.goalsBalance - a.goalsBalance || b.goalsFavor - a.goalsFavor || a.goalsOwn - b.goalsOwn))
   );
 
   private _joinScore = async (team : Iteam) : Promise<IScore> => {
@@ -27,6 +21,7 @@ class ServiceScore {
       this._getScore(team, { homeTeam: team.id }),
       this._getScore(team, { awayTeam: team.id }),
     ]);
+
     const payload : IScore = {
       name: team.teamName,
       totalPoints: scores[0].totalPoints + scores[1].totalPoints,
@@ -36,7 +31,7 @@ class ServiceScore {
       totalLosses: scores[0].totalLosses + scores[1].totalLosses,
       goalsFavor: scores[0].goalsFavor + scores[1].goalsFavor,
       goalsOwn: scores[0].goalsOwn + scores[1].goalsOwn,
-      goalsBalance: scores[0].goalsBalance + scores[1].goalsBalance,
+      goalsBalance: scores[0].goalsBalance - scores[1].goalsBalance,
       efficiency: (((scores[0].totalPoints + scores[1].totalPoints)
         / ((scores[0].totalGames + scores[1].totalGames) * 3)) * 100).toFixed(2),
     };
@@ -47,7 +42,7 @@ class ServiceScore {
     const list = await ServiceTeam.GetAllTeams();
     const asynScore = list.map((item) => {
       if(type === 'home') return this._getScore(item, { homeTeam: item.id })
-      if(type === 'away') return this._getScore(item, { awayTeam: item.id })
+      if(type === 'away') return this._getScore(item, { awayTeam: item.id })      
       return this._joinScore(item);
     });
     const calculate = await Promise.all(asynScore) as IScore[];

@@ -5,6 +5,8 @@
   "main": "./build/server",
   "scripts": {
     "build": "/bin/sh tsc_eval.sh",
+    "test:wsl": "mocha -r ts-node/register ./src/tests/**.{test,spec}.ts -t 10000 --exit",
+    "test:coverage:wsl": "nyc npm run test:wsl",
     "test": "mocha -r ts-node/register ./src/tests/*$NAME*.{test,spec}.ts -t 10000 --exit",
     "test:coverage": "nyc npm run test",
     "test:coverage:json": "nyc --reporter=json-summary npm run test",
