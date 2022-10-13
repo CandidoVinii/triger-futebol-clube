@@ -19,19 +19,20 @@ class ServiceUser {
   Login = async (user: user) => {
     const { email, password } = user;
     const dbUser: any = await User.findOne({ where: { email }});
-    const verifyPassword = Encrypt.Compare(password, dbUser.password);
-    if(!dbUser || !verifyPassword) {
+    if(!dbUser) {
       throw new CustomError(401, 'Incorrect email or password');
-    } else {
-      const payload = {
-        id: dbUser.id,
-        email: dbUser.email,
-        username: dbUser.username,
-        role: dbUser.role
-      };
-      return this.tokenCreate.Sign(payload);
+    }
+    const verifyPassword = Encrypt.Compare(password, dbUser.password);
+    if(!verifyPassword) {
+      throw new CustomError(401, 'Incorrect email or password');
+    }
+    const payload = {
+      id: dbUser.id,
+      email: dbUser.email,
+      username: dbUser.username,
+      role: dbUser.role
     };
-
+    return this.tokenCreate.Sign(payload);
   };
   TokenValidate = async (token: string | undefined) => {
     const { id } = this.tokenCreate.Verificate(token) as loged;
