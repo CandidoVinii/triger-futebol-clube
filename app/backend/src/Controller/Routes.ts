@@ -13,6 +13,7 @@ router.get('/teams/:id', ControllerTeam.GetTeamById);
 router.get('/matches', ControllerMatch.GetAllMatches);
 router.post('/matches', ControllerMatch.CreateMatch);
 router.patch('/matches/:id/finish', ControllerMatch.UpdateMatch);
+router.patch('/matches/:id', ControllerMatch.UpdateInProgressMatch);
 
 
 export default router;

@@ -35,8 +35,21 @@ class ControllerMatch {
       return res.status(200).send({ message: "Finished" })
     } catch(err) {
       next(err);
-    }
-  }
+    };
+  };
+
+  UpdateInProgressMatch = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { authorization } = req.headers;
+      const { homeTeamGoals, awayTeamGoals } = req.body;
+      const resp = { homeTeamGoals, awayTeamGoals };
+      await this.matchService.UpdateMatch(+id, resp, authorization);
+      return res.status(200).send({ message: 'Match updated successfully' });
+    } catch (err) {
+      next(err);
+    };
+  };
 }
 
 
