@@ -3,24 +3,7 @@ import Match from "../database/models/Match";
 import CustomError from "../helpers/CustomError";
 import Token from "../helpers/Token";
 import ServiceTeam from "./ServiceTeam";
-
-interface IMatch extends ICreateMatch {
-  teamHome: {
-    teamName: string,
-  };
-  teamAway: {
-    teamName: string,
-  };
-}
-
-interface ICreateMatch {
-  id?: number;
-  homeTeam: number;
-  homeTeamGoals: number;
-  awayTeam: number;
-  awayTeamGoals: number;
-  inProgress: boolean;
-}
+import IMatch, { ICreateMatch } from "../Interfaces/IMatch";
 
 class ServiceMatch {
   GetAllMatches = async (filters: any) : Promise<IMatch[] | []> => {

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import validateLogin from "../middlewares/LoginValidate";
 import ControllerMatch from "./ControllerMatch";
+import ControllerScore from "./ControllerScore";
 import ControllerTeam from "./ControllerTeam";
 import ControllerUser from "./ControllerUser";
 
@@ -14,6 +15,10 @@ router.get('/matches', ControllerMatch.GetAllMatches);
 router.post('/matches', ControllerMatch.CreateMatch);
 router.patch('/matches/:id/finish', ControllerMatch.UpdateMatch);
 router.patch('/matches/:id', ControllerMatch.UpdateInProgressMatch);
+router.get('/leaderboard', ControllerScore.AllLeader);
+router.get('/leaderboard/home', ControllerScore.HomeLeader);
+router.get('/leaderboard/away', ControllerScore.AwayLeader);
+
 
 
 export default router;
