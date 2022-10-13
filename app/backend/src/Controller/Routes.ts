@@ -8,6 +8,7 @@ const router = Router();
 router.post('/login', validateLogin, ControllerUser.Login);
 router.get('/login/validate', ControllerUser.Verify);
 router.get('/teams', ControllerTeam.GetAllTeams);
+router.get('/teams/:id', ControllerTeam.GetTeamById);
 
 
 export default router;
