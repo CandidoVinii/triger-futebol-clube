@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+import CustomError from './CustomError';
 
 export default class Token {
   public static Sign(payload: object) : string {
@@ -6,12 +7,11 @@ export default class Token {
   };
 
   public static Verificate(token: string | undefined) : jwt.JwtPayload | string {
-    if(!token) return 'Token invalid';
+    if(!token) throw new CustomError(401, 'Token must be a valid token');
     try {
-      
       return jwt.verify(token, process.env.JWT_SECRET as string);
     } catch (error) {
-      return 'Token invalid'
+      throw new CustomError(401, 'Token must be a valid token');
     }
   }
 }

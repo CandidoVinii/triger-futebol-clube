@@ -75,7 +75,7 @@ class ServiceMatch {
       { model: Team, as: 'teamAway', attributes: ['teamName'] },
     ],
     where: { id },
-    }) as IMatch; 
+    }) as IMatch;
     if (matchSearch.inProgress === false) throw new CustomError(401, 'Match already finished!');
     const match = await Match.update(dataReq, { where: { id } });
     return match;
