@@ -15,8 +15,17 @@ class ControllerMatch {
       return res.status(200).json(result);
     } catch (err) {
       next(err);
-    }
-  }
+    };
+  };
+  CreateMatch = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { authorization } = req.headers;
+      const response = await this.matchService.CreateMatch(req.body, authorization);
+      return res.status(201).json(response);
+    } catch(err) {
+      next(err);
+    };
+  };
 }
 
 

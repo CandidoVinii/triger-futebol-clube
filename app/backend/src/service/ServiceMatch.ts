@@ -1,8 +1,9 @@
 import Team from "../database/models/Team";
 import Match from "../database/models/Match";
 import CustomError from "../helpers/CustomError";
+import Token from "../helpers/Token";
 
-interface IMatch extends INewMatch {
+interface IMatch extends ICreateMatch {
   teamHome: {
     teamName: string,
   };
@@ -11,7 +12,7 @@ interface IMatch extends INewMatch {
   };
 }
 
-interface INewMatch {
+interface ICreateMatch {
   id?: number;
   homeTeam: number;
   homeTeamGoals: number;
@@ -49,6 +50,14 @@ class ServiceMatch {
 
     return this.GetAllMatches({ inProgress: filter });
   }
+
+  CreateMatch = async (match: ICreateMatch, token: string | undefined ) => {
+    Token.Verificate(token);
+    console.log(match);
+    
+    const newMatch = await Match.create(match);
+    return newMatch;
+  };
 }
 
 export default new ServiceMatch();

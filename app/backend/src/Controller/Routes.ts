@@ -11,6 +11,7 @@ router.get('/login/validate', ControllerUser.Verify);
 router.get('/teams', ControllerTeam.GetAllTeams);
 router.get('/teams/:id', ControllerTeam.GetTeamById);
 router.get('/matches', ControllerMatch.GetAllMatches);
+router.post('/matches', ControllerMatch.CreateMatch);
 
 
 export default router;
