@@ -26,6 +26,17 @@ class ControllerMatch {
       next(err);
     };
   };
+
+  UpdateMatch = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { authorization } = req.headers;
+      const { id } = req.params
+      await this.matchService.UpdateMatch(+id, { inProgress: false }, authorization);
+      return res.status(200).send({ message: "Finished" })
+    } catch(err) {
+      next(err);
+    }
+  }
 }
 
 

@@ -58,6 +58,19 @@ class ServiceMatch {
     const newMatch = await Match.create(match);
     return newMatch;
   };
+
+  UpdateMatch = async (id: number, dataReq: object, token: string | undefined) => {
+    Token.Verificate(token);
+    const matchSearch = await Match.findOne({ include: [
+      { model: Team, as: 'teamHome', attributes: ['teamName'] },
+      { model: Team, as: 'teamAway', attributes: ['teamName'] },
+    ],
+    where: { id },
+    }) as IMatch; 
+    if (matchSearch.inProgress === false) throw new CustomError(401, 'Match already finished!');
+    const match = await Match.update(dataReq, { where: { id } });
+    return match;
+  };
 }
 
 export default new ServiceMatch();
