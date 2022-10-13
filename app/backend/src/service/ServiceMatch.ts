@@ -2,6 +2,7 @@ import Team from "../database/models/Team";
 import Match from "../database/models/Match";
 import CustomError from "../helpers/CustomError";
 import Token from "../helpers/Token";
+import ServiceTeam from "./ServiceTeam";
 
 interface IMatch extends ICreateMatch {
   teamHome: {
@@ -53,11 +54,19 @@ class ServiceMatch {
 
   CreateMatch = async (match: ICreateMatch, token: string | undefined ) => {
     Token.Verificate(token);
-    console.log(match);
+    await this.teamsVerificate([match.homeTeam, match.awayTeam]);
     
     const newMatch = await Match.create(match);
     return newMatch;
   };
+
+  private teamsVerificate = async (idTeam: number[]) => {
+    if(idTeam[0] === idTeam[1]) {
+      throw new CustomError(401, 'It is not possible to create a match with two equal teams');
+    };
+    const result = idTeam.map((item) => ServiceTeam.GetByIdTeam(item));
+    return Promise.all(result);
+  }
 
   UpdateMatch = async (id: number, dataReq: object, token: string | undefined) => {
     Token.Verificate(token);
