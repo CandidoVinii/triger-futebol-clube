@@ -31,7 +31,7 @@ class ServiceMatch {
           model: Team, as: 'teamAway', attributes: ['teamName']
         }
       ],
-      where: { inProgress: filters },
+      where: { ...filters },
     }) as IMatch[];
     if (!response) return [];
     return response;
@@ -47,7 +47,7 @@ class ServiceMatch {
     const filter = this.forBoolean(inProgress);
     if(filter === undefined) throw new CustomError(404, 'InProgress not found');
 
-    return this.GetAllMatches(filter);
+    return this.GetAllMatches({ inProgress: filter });
   }
 }
 
