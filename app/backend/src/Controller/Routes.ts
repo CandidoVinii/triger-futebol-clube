@@ -1,5 +1,6 @@
 import { Router } from "express";
 import validateLogin from "../middlewares/LoginValidate";
+import ControllerMatch from "./ControllerMatch";
 import ControllerTeam from "./ControllerTeam";
 import ControllerUser from "./ControllerUser";
 
@@ -9,6 +10,7 @@ router.post('/login', validateLogin, ControllerUser.Login);
 router.get('/login/validate', ControllerUser.Verify);
 router.get('/teams', ControllerTeam.GetAllTeams);
 router.get('/teams/:id', ControllerTeam.GetTeamById);
+router.get('/matches', ControllerMatch.GetAllMatches);
 
 
 export default router;
