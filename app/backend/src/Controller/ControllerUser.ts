@@ -20,7 +20,7 @@ class ControllerUser {
       const response = await this.userService.TokenValidate(authorization);
       return res.status(200).send({ role: response });
     } catch (error) {
-      return res.status(404).send({ message: 'Incorrect email or password' });
+      return res.status(401).send({ message: 'Incorrect email or password' });
     }
   }
 }
