@@ -27,21 +27,21 @@ export default class ScoreCreate {
 
   private countScore() {
     this.match.map((item) => {
-      this.totalGames ++;
-      if(item.homeTeam === this.team.id) {
+      this.totalGames += 1;
+      if (item.homeTeam === this.team.id) {
         this.goalsFavor += item.homeTeamGoals;
         this.goalsOwn += item.awayTeamGoals;
 
-        if(item.homeTeamGoals > item.awayTeamGoals) this.totalVictories ++;
-        else if(item.homeTeamGoals < item.homeTeamGoals) this.totalLosses ++;
-        else this.totalDraws ++;
+        if (item.homeTeamGoals > item.awayTeamGoals) this.totalVictories += 1;
+        else if (item.homeTeamGoals < item.awayTeamGoals) this.totalLosses += 1;
+        else this.totalDraws += 1;
       } else {
         this.goalsFavor += item.awayTeamGoals;
         this.goalsOwn += item.homeTeamGoals;
 
-        if(item.homeTeamGoals < item.awayTeamGoals) this.totalVictories ++;
-        else if(item.homeTeamGoals > item.awayTeamGoals) this.totalLosses ++;
-        else this.totalDraws ++;
+        if (item.homeTeamGoals < item.awayTeamGoals) this.totalVictories += 1;
+        else if (item.homeTeamGoals > item.awayTeamGoals) this.totalLosses += 1;
+        else this.totalDraws += 1;
       }
     });
   }
