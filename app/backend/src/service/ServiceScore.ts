@@ -13,8 +13,11 @@ class ServiceScore {
   };
 
   private _orderScore = (teams: IScore[]) => (
-      teams.sort((a, b) => (b.totalPoints - a.totalPoints || b.totalVictories - a.totalVictories || b.goalsBalance - a.goalsBalance || b.goalsFavor - a.goalsFavor || a.goalsOwn - b.goalsOwn))
-  );
+      teams.sort((a, b) => b.totalPoints - a.totalPoints
+      || b.totalVictories - a.totalVictories
+      || b.goalsBalance - a.goalsBalance
+      || b.goalsFavor - a.goalsFavor
+      || b.goalsOwn - a.goalsOwn));
 
   private _joinScore = async (team : Iteam) : Promise<IScore> => {
     const scores = await Promise.all([
@@ -24,16 +27,16 @@ class ServiceScore {
 
     const payload : IScore = {
       name: team.teamName,
-      totalPoints: scores[0].totalPoints + scores[1].totalPoints,
-      totalGames: scores[0].totalGames + scores[1].totalGames,
-      totalVictories: scores[0].totalVictories + scores[1].totalVictories,
-      totalDraws: scores[0].totalDraws + scores[1].totalDraws,
-      totalLosses: scores[0].totalLosses + scores[1].totalLosses,
-      goalsFavor: scores[0].goalsFavor + scores[1].goalsFavor,
-      goalsOwn: scores[0].goalsOwn + scores[1].goalsOwn,
-      goalsBalance: scores[0].goalsBalance - scores[1].goalsBalance,
-      efficiency: (((scores[0].totalPoints + scores[1].totalPoints)
-        / ((scores[0].totalGames + scores[1].totalGames) * 3)) * 100).toFixed(2),
+      totalPoints: Number(scores[0].totalPoints) + Number(scores[1].totalPoints),
+      totalGames: Number(scores[0].totalGames) + Number(scores[1].totalGames),
+      totalVictories: Number(scores[0].totalVictories) + Number(scores[1].totalVictories),
+      totalDraws: Number(scores[0].totalDraws) + Number(scores[1].totalDraws),
+      totalLosses: Number(scores[0].totalLosses) + Number(scores[1].totalLosses),
+      goalsFavor: Number(scores[0].goalsFavor) + Number(scores[1].goalsFavor),
+      goalsOwn: Number(scores[0].goalsOwn) + Number(scores[1].goalsOwn),
+      goalsBalance: Number(scores[0].goalsBalance) + Number(scores[1].goalsBalance),
+      efficiency: (((Number(scores[0].totalPoints) + Number(scores[1].totalPoints))
+        / ((Number(scores[0].totalGames) + Number(scores[1].totalGames)) * 3)) * 100).toFixed(2),
     };
     return payload;
   };
